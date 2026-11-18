@@ -148,6 +148,12 @@
       <div class="field full"><label>Ιστοσελίδα ή επαγγελματικό προφίλ (προαιρετικά)</label><input name="website" type="url" placeholder="https://"></div>
       <div class="field full"><label><input name="consent" type="checkbox" required style="width:auto"> Δηλώνω ότι τα στοιχεία που υποβάλλω είναι ακριβή και αποδέχομαι την επεξεργασία τους για την εξέταση της αίτησής μου. *</label></div>
     </div>
+    
+    <!-- ΕΝΗΜΕΡΩΤΙΚΟ ΜΗΝΥΜΑ ΣΤΗΝ ΕΓΓΡΑΦΗ (Τι θα βλέπει ο πελάτης) -->
+    <div class="success" style="margin-top:16px">
+      <strong>Πληροφορία για τον πελάτη:</strong> Όταν ο πελάτης πατάει «Επικοινωνία» στο προφίλ σας, θα του εμφανίζονται οι 2 επιλογές (<strong>Επικοινωνία με αριθμό</strong>: <code><span id="previewPhoneReg">ο αριθμός σας</span></code> και <strong>Επικοινωνία με email</strong>: <code><span id="previewEmailReg">το email σας</span></code>) ώστε να επιλέξει πώς επιθυμεί να επικοινωνήσει μαζί σας.
+    </div>
+
     <div class="formactions">
       <button type="button" class="btn outline" style="color:var(--navy)" onclick="closeRegistration()">Ακύρωση</button>
       <button class="btn" type="submit">Δημιουργία λογαριασμού και υποβολή</button>
@@ -172,6 +178,27 @@
       <a href="#" onclick="closeLogin();openRegistration();return false">Κάντε εγγραφή εδώ.</a>
     </p>
   </form>
+</div>
+</div>
+
+<!-- ΝΕΟ MODAL ΕΠΙΚΟΙΝΩΝΙΑΣ ΠΕΛΑΤΗ (ΕΜΦΑΝΙΖΕΙ ΤΙΣ 2 ΕΠΙΛΟΓΕΣ ΜΕ ΤΟΝ ΑΡΙΘΜΟ ΚΑΙ ΤΟ EMAIL ΤΟΥ ΔΙΚΗΓΟΡΟΥ) -->
+<div class="modal" id="contactModal">
+<div class="modalbox" style="max-width:480px; text-align:center;">
+  <button class="close" onclick="closeContactModal()" aria-label="Κλείσιμο">×</button>
+  <div class="eyebrow">ΕΠΙΚΟΙΝΩΝΙΑ ΜΕ ΔΙΚΗΓΟΡΟ</div>
+  <h2 id="contactModalTitle" style="margin-bottom:8px;">Επιλέξτε τρόπο επικοινωνίας</h2>
+  <p style="color:var(--muted); font-size:13px; margin-bottom:20px;">Επιλέξτε αν επιθυμείτε να επικοινωνήσετε τηλεφωνικά ή μέσω email.</p>
+  
+  <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+    <a id="btnCallOption" href="#" class="btn" style="text-decoration:none; display:block; padding:14px; font-size:14px;">
+      📞 Επικοινωνία με αριθμό: <strong id="modalPhoneText"></strong>
+    </a>
+    <a id="btnEmailOption" href="#" class="btn outline" style="text-decoration:none; display:block; padding:14px; font-size:14px; color:var(--navy); border-color:var(--navy);">
+      ✉️ Επικοινωνία με email: <strong id="modalEmailText"></strong>
+    </a>
+  </div>
+
+  <button class="btn dark" onclick="closeContactModal()" style="width:100%;">Κλείσιμο</button>
 </div>
 </div>
 
@@ -327,11 +354,47 @@ function renderDirectory(list) {
       <p class="meta">${safe(a.bio || "Επαγγελματικό προφίλ δικηγόρου.")}</p>
       ${a.hourly ? `<p class="meta">Ωριαία αμοιβή: ${safe(a.hourly)} €</p>` : ""}
       ${a.fixed ? `<p class="meta">Ενδεικτική συνολική αμοιβή: ${safe(a.fixed)} €</p>` : ""}
-      <a class="btn dark" style="display:inline-block;margin-top:12px;text-decoration:none"
-        href="mailto:${encodeURIComponent(a.email)}?subject=${encodeURIComponent("Επικοινωνία μέσω LEGALMARTIK")}">Επικοινωνία</a>
+      <button class="btn dark" style="display:inline-block;margin-top:12px;"
+        onclick="openContactModal('${safe(a.name)}', '${safe(a.phone)}', '${safe(a.email)}')">Επικοινωνία</button>
     </article>
   `).join("");
 }
+
+/* ΣΥΝΑΡΤΗΣΕΙΣ ΓΙΑ ΤΟ MODAL ΕΠΙΚΟΙΝΩΝΙΑΣ ΠΕΛΑΤΗ */
+window.openContactModal = function(name, phone, email) {
+  document.getElementById("contactModalTitle").textContent = "Επικοινωνία με: " + name;
+  document.getElementById("modalPhoneText").textContent = phone || "Δεν δηλώθηκε";
+  document.getElementById("modalEmailText").textContent = email;
+  
+  document.getElementById("btnCallOption").href = "tel:" + phone;
+  document.getElementById("btnEmailOption").href = "mailto:" + email + "?subject=" + encodeURIComponent("Επικοινωνία μέσω LEGALMARTIK");
+  
+  document.getElementById("contactModal").classList.add("open");
+}
+
+window.closeContactModal = function() {
+  document.getElementById("contactModal").classList.remove("open");
+}
+
+/* Live Preview στοιχείων κατά την εγγραφή του δικηγόρου */
+document.addEventListener("DOMContentLoaded", () => {
+  fillSelects();
+  loadDirectory();
+
+  const phoneInput = document.querySelector('input[name="phone"]');
+  const emailInput = document.querySelector('input[name="email"]');
+  
+  if(phoneInput) {
+    phoneInput.addEventListener("input", (e) => {
+      document.getElementById("previewPhoneReg").textContent = e.target.value || "ο αριθμός σας";
+    });
+  }
+  if(emailInput) {
+    emailInput.addEventListener("input", (e) => {
+      document.getElementById("previewEmailReg").textContent = e.target.value || "το email σας";
+    });
+  }
+});
 
 /* ΚΟΙΝΟ ΣΗΜΕΙΟ ΕΓΓΡΑΦΗΣ / ΣΥΝΔΕΣΗΣ */
 
@@ -663,6 +726,7 @@ async function changeStatus(id,status) {
       id:app.id,
       name:app.name,
       email:app.email,
+      phone:app.phone,
       bar:app.bar,
       region:app.region,
       unit:app.unit,
