@@ -56,17 +56,17 @@
 <section class="adminarea" id="adminArea"><div class="wrap">
 <div class="adminlogin" id="adminLogin">
 <div class="eyebrow">Περιοχή διαχείρισης</div><h2>Admin access</h2><p>Η πρόσβαση προορίζεται αποκλειστικά για τον διαχειριστή της πλατφόρμας.</p>
-<div class="warning">Πρωτότυπο επίδειξης: η σύνδεση και η επιβεβαίωση παρακάτω λειτουργούν τοπικά στον browser. Δεν αποστέλλεται πραγματικό email και δεν αποτελούν ασφαλή πιστοποίηση.</div>
+<div class="warning">Η πρόσβαση διαχειριστή γίνεται μέσω Supabase Auth. Ο λογαριασμός διαχειριστή πρέπει να δημιουργηθεί πρώτα από το Supabase Dashboard.</div>
 <div class="field"><label>Email διαχειριστή</label><input id="adminEmail" type="email" value="orestis.mart09@gmail.com" readonly></div>
 <div class="field" style="margin-top:12px"><label>Κωδικός διαχειριστή</label><input id="adminPassword" type="password" placeholder="Ο κωδικός που θα ορίσεις"></div>
-<div id="firstSetup" class="hidden"><p>Πρώτη χρήση: δημιούργησε έναν τοπικό κωδικό διαχειριστή.</p><div class="field"><label>Επιβεβαίωση κωδικού</label><input id="adminPassword2" type="password" placeholder="Επανάλαβε τον κωδικό"></div></div>
+
 <button class="btn" style="width:100%;margin-top:15px" id="adminLoginBtn" onclick="adminLogin()">Σύνδεση διαχειριστή</button>
 <button class="btn outline" style="width:100%;margin-top:9px;color:var(--navy)" onclick="backToSite()">Επιστροφή στην ιστοσελίδα</button>
 </div>
 
 <div class="adminpanel" id="adminPanel">
 <div class="adminhead"><div><div class="eyebrow">LEGALMARTIK / CONTROL CENTER</div><h2>Πίνακας διαχείρισης</h2><div class="muted">Συνδεδεμένος διαχειριστής: orestis.mart09@gmail.com</div></div><button class="btn dark" onclick="adminLogout()">Αποσύνδεση</button></div>
-<div class="warning">Τοπικό πρωτότυπο: τα δεδομένα αποθηκεύονται μόνο σε αυτόν τον browser. Για πραγματική λειτουργία απαιτούνται server, βάση δεδομένων, ασφαλής σύνδεση και υπηρεσία αποστολής email/SMS για κωδικούς επαλήθευσης.</div>
+<div class="warning">Τα δεδομένα αιτήσεων και δημόσιων προφίλ αποθηκεύονται στη βάση Supabase. Η πρόσβαση διαχειριστή προστατεύεται με Supabase Auth και RLS.</div>
 <div class="stats"><div class="stat"><span>Σε αναμονή</span><strong id="pendingCount">0</strong></div><div class="stat"><span>Εγκεκριμένοι</span><strong id="approvedCount">0</strong></div><div class="stat"><span>Συνολικές αιτήσεις</span><strong id="totalCount">0</strong></div></div>
 <div class="tabs"><button class="tab active" onclick="setAdminTab('pending',this)">Αιτήσεις σε αναμονή</button><button class="tab" onclick="setAdminTab('approved',this)">Εγκεκριμένοι</button><button class="tab" onclick="setAdminTab('rejected',this)">Απορριφθέντες</button></div>
 <div id="applicationList"></div>
@@ -99,86 +99,141 @@
 </form></div></div>
 <div class="toast" id="toast"></div>
 
-<script>
-const ADMIN_EMAIL="orestis.mart09@gmail.com";
-const SPECIALTIES=["Αστικό Δίκαιο","Ποινικό Δίκαιο","Οικογενειακό Δίκαιο","Εργατικό Δίκαιο","Εμπορικό / Εταιρικό Δίκαιο","Δίκαιο Ακινήτων","Κληρονομικό Δίκαιο","Διοικητικό Δίκαιο","Φορολογικό Δίκαιο","Τραπεζικό Δίκαιο","Πνευματική Ιδιοκτησία","Προστασία Προσωπικών Δεδομένων","Μεταναστευτικό Δίκαιο","Δίκαιο Μεταφορών","Ασφαλιστικό Δίκαιο","Δίκαιο Καταναλωτή","Δίκαιο Δημοσίων Συμβάσεων","Ενεργειακό Δίκαιο","Ναυτικό Δίκαιο","Δίκαιο Πληροφορικής"];
-const GEO={
-"Αττική":["Κεντρικός Τομέας Αθηνών","Βόρειος Τομέας Αθηνών","Νότιος Τομέας Αθηνών","Δυτικός Τομέας Αθηνών","Πειραιάς","Νήσοι","Ανατολική Αττική","Δυτική Αττική"],
-"Κεντρική Μακεδονία":["Θεσσαλονίκη","Ημαθία","Κιλκίς","Πέλλα","Πιερία","Σέρρες","Χαλκιδική"],
-"Ανατολική Μακεδονία και Θράκη":["Δράμα","Έβρος","Καβάλα","Ξάνθη","Ροδόπη","Θάσος"],
-"Δυτική Μακεδονία":["Γρεβενά","Καστοριά","Κοζάνη","Φλώρινα"],
-"Ήπειρος":["Άρτα","Θεσπρωτία","Ιωάννινα","Πρέβεζα"],
-"Θεσσαλία":["Καρδίτσα","Λάρισα","Μαγνησία","Σποράδες","Τρίκαλα"],
-"Ιόνια Νησιά":["Ζάκυνθος","Ιθάκη","Κέρκυρα","Κεφαλονιά","Λευκάδα"],
-"Δυτική Ελλάδα":["Αιτωλοακαρνανία","Αχαΐα","Ηλεία"],
-"Στερεά Ελλάδα":["Βοιωτία","Εύβοια","Ευρυτανία","Φθιώτιδα","Φωκίδα"],
-"Πελοπόννησος":["Αργολίδα","Αρκαδία","Κορινθία","Λακωνία","Μεσσηνία"],
-"Βόρειο Αιγαίο":["Λέσβος","Λήμνος","Σάμος","Ικαρία","Χίος"],
-"Νότιο Αιγαίο":["Άνδρος","Θήρα","Κάλυμνος","Κάρπαθος","Κέα - Κύθνος","Κως","Μήλος","Μύκονος","Νάξος","Πάρος","Ρόδος","Σύρος","Τήνος"],
-"Κρήτη":["Ηράκλειο","Λασίθι","Ρέθυμνο","Χανιά"]
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const SUPABASE_URL = "https://rzojjrntyvcnxeogibqx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_fMjcPVsF8VOrNSaTnoheCA_un3A0HtV";
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const ADMIN_EMAIL = "orestis.mart09@gmail.com";
+const SPECIALTIES = ["Αστικό Δίκαιο","Ποινικό Δίκαιο","Οικογενειακό Δίκαιο","Εργατικό Δίκαιο","Εμπορικό / Εταιρικό Δίκαιο","Δίκαιο Ακινήτων","Κληρονομικό Δίκαιο","Διοικητικό Δίκαιο","Φορολογικό Δίκαιο","Τραπεζικό Δίκαιο","Πνευματική Ιδιοκτησία","Προστασία Προσωπικών Δεδομένων","Μεταναστευτικό Δίκαιο","Δίκαιο Μεταφορών","Ασφαλιστικό Δίκαιο","Δίκαιο Καταναλωτή","Δίκαιο Δημοσίων Συμβάσεων","Ενεργειακό Δίκαιο","Ναυτικό Δίκαιο","Δίκαιο Πληροφορικής"];
+const GEO = {
+ "Αττική":["Κεντρικός Τομέας Αθηνών","Βόρειος Τομέας Αθηνών","Νότιος Τομέας Αθηνών","Δυτικός Τομέας Αθηνών","Πειραιάς","Νήσοι","Ανατολική Αττική","Δυτική Αττική"],
+ "Κεντρική Μακεδονία":["Θεσσαλονίκη","Ημαθία","Κιλκίς","Πέλλα","Πιερία","Σέρρες","Χαλκιδική"],
+ "Ανατολική Μακεδονία και Θράκη":["Δράμα","Έβρος","Καβάλα","Ξάνθη","Ροδόπη","Θάσος"],
+ "Δυτική Μακεδονία":["Γρεβενά","Καστοριά","Κοζάνη","Φλώρινα"],
+ "Ήπειρος":["Άρτα","Θεσπρωτία","Ιωάννινα","Πρέβεζα"],
+ "Θεσσαλία":["Καρδίτσα","Λάρισα","Μαγνησία","Σποράδες","Τρίκαλα"],
+ "Ιόνια Νησιά":["Ζάκυνθος","Ιθάκη","Κέρκυρα","Κεφαλονιά","Λευκάδα"],
+ "Δυτική Ελλάδα":["Αιτωλοακαρνανία","Αχαΐα","Ηλεία"],
+ "Στερεά Ελλάδα":["Βοιωτία","Εύβοια","Ευρυτανία","Φθιώτιδα","Φωκίδα"],
+ "Πελοπόννησος":["Αργολίδα","Αρκαδία","Κορινθία","Λακωνία","Μεσσηνία"],
+ "Βόρειο Αιγαίο":["Λέσβος","Λήμνος","Σάμος","Ικαρία","Χίος"],
+ "Νότιο Αιγαίο":["Άνδρος","Θήρα","Κάλυμνος","Κάρπαθος","Κέα - Κύθνος","Κως","Μήλος","Μύκονος","Νάξος","Πάρος","Ρόδος","Σύρος","Τήνος"],
+ "Κρήτη":["Ηράκλειο","Λασίθι","Ρέθυμνο","Χανιά"]
 };
-const STORE="legalmartik_applications_v1", PASSKEY="legalmartik_admin_password_v1";
-let adminTab="pending";
-function readApps(){try{return JSON.parse(localStorage.getItem(STORE)||"[]")}catch(e){return []}}
-function saveApps(a){localStorage.setItem(STORE,JSON.stringify(a))}
-function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),3200)}
+let adminTab = "pending";
+let cachedApplications = [];
+
+function toast(msg) {
+ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
+ setTimeout(()=>t.classList.remove("show"),3200);
+}
+function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function fillSelects(){
  const regions=Object.keys(GEO);
  ["searchRegion","lawyerRegion"].forEach(id=>{const s=document.getElementById(id);regions.forEach(r=>s.add(new Option(r,r)))});
- const ss=document.getElementById("searchSpecialty");SPECIALTIES.forEach(x=>ss.add(new Option(x,x)));
- const checks=document.getElementById("specialtyChecks");
- checks.innerHTML=SPECIALTIES.map((x,i)=>`<label><input type="checkbox" name="specialties" value="${x}">${x}</label>`).join("");
+ const ss=document.getElementById("searchSpecialty"); SPECIALTIES.forEach(x=>ss.add(new Option(x,x)));
+ document.getElementById("specialtyChecks").innerHTML=SPECIALTIES.map((x,i)=>`<label><input type="checkbox" name="specialties" value="${safe(x)}">${safe(x)}</label>`).join("");
  updateUnits();
  document.getElementById("lawyerRegion").addEventListener("change",updateUnits);
- document.getElementById("specialtyTiles").innerHTML=SPECIALTIES.slice(0,9).map((x,i)=>`<div class="specialty" onclick="pickSpecialty('${x.replace(/'/g,"\\'")}')"><span class="num">0${i+1}</span><h3>${x}</h3><p>Εξερευνήστε επαγγελματικά προφίλ</p></div>`).join("");
+ document.getElementById("specialtyTiles").innerHTML=SPECIALTIES.slice(0,9).map((x,i)=>`<div class="specialty" onclick="pickSpecialty('${x.replace(/'/g,"\\'")}')"><span class="num">0${i+1}</span><h3>${safe(x)}</h3><p>Εξερευνήστε επαγγελματικά προφίλ</p></div>`).join("");
 }
-function updateUnits(){const r=document.getElementById("lawyerRegion").value;const s=document.getElementById("lawyerUnit");s.innerHTML="";(GEO[r]||[]).forEach(x=>s.add(new Option(x,x)))}
-function pickSpecialty(x){document.getElementById("searchSpecialty").value=x;searchDirectory()}
-function searchDirectory(){
+function updateUnits(){const r=document.getElementById("lawyerRegion").value;const s=document.getElementById("lawyerUnit");s.innerHTML="";(GEO[r]||[]).forEach(x=>s.add(new Option(x,x)));}
+async function loadDirectory(){
+ const {data,error}=await supabase.from("lawyer_public_profiles").select("*").order("created_at",{ascending:false});
+ if(error){console.error(error);toast("Δεν ήταν δυνατή η φόρτωση του καταλόγου.");return;}
+ renderDirectory(data||[]);
+}
+function pickSpecialty(x){document.getElementById("searchSpecialty").value=x;searchDirectory();}
+async function searchDirectory(){
  const sp=document.getElementById("searchSpecialty").value, reg=document.getElementById("searchRegion").value;
- const results=readApps().filter(a=>a.status==="approved"&&(!sp||a.specialties.includes(sp))&&(!reg||a.region===reg));
- renderDirectory(results);document.getElementById("lawyers").scrollIntoView({behavior:"smooth"});
+ let q=supabase.from("lawyer_public_profiles").select("*").order("created_at",{ascending:false});
+ if(sp) q=q.contains("specialties",[sp]);
+ if(reg) q=q.eq("region",reg);
+ const {data,error}=await q;
+ if(error){console.error(error);toast("Σφάλμα αναζήτησης.");return;}
+ renderDirectory(data||[]);document.getElementById("lawyers").scrollIntoView({behavior:"smooth"});
 }
 function renderDirectory(list){
  const el=document.getElementById("lawyerResults");
- if(!list.length){el.innerHTML='<div class="empty">Δεν βρέθηκαν εγκεκριμένα προφίλ για τα συγκεκριμένα κριτήρια.</div>';return}
- el.innerHTML=list.map(a=>`<article class="lawyer-card"><div class="eyebrow">${safe(a.region)} · ${safe(a.unit)}</div><h3>${safe(a.name)}</h3><div class="meta">${safe(a.bar)}</div><div class="meta">${safe(a.city||"Πανελλαδική/τοπική εξυπηρέτηση")}</div><div>${a.specialties.map(s=>`<span class="tag">${safe(s)}</span>`).join("")}</div><p class="meta">${safe(a.bio||"Επαγγελματικό προφίλ δικηγόρου.")}</p>${a.hourly?`<p class="meta">Ωριαία αμοιβή: ${safe(a.hourly)} €</p>`:""}${a.fixed?`<p class="meta">Ενδεικτική συνολική αμοιβή: ${safe(a.fixed)} €</p>`:""}<a class="btn dark" style="display:inline-block;margin-top:12px;text-decoration:none" href="mailto:${encodeURIComponent(a.email)}?subject=${encodeURIComponent("Επικοινωνία μέσω LEGALMARTIK")}">Επικοινωνία</a></article>`).join("");
+ if(!list.length){el.innerHTML='<div class="empty">Δεν βρέθηκαν εγκεκριμένα προφίλ για τα συγκεκριμένα κριτήρια.</div>';return;}
+ el.innerHTML=list.map(a=>`<article class="lawyer-card"><div class="eyebrow">${safe(a.region)} · ${safe(a.unit)}</div><h3>${safe(a.name)}</h3><div class="meta">${safe(a.bar)}</div><div class="meta">${safe(a.city||"Πανελλαδική/τοπική εξυπηρέτηση")}</div><div>${(a.specialties||[]).map(s=>`<span class="tag">${safe(s)}</span>`).join("")}</div><p class="meta">${safe(a.bio||"Επαγγελματικό προφίλ δικηγόρου.")}</p>${a.hourly?`<p class="meta">Ωριαία αμοιβή: ${safe(a.hourly)} €</p>`:""}${a.fixed?`<p class="meta">Ενδεικτική συνολική αμοιβή: ${safe(a.fixed)} €</p>`:""}<a class="btn dark" style="display:inline-block;margin-top:12px;text-decoration:none" href="mailto:${encodeURIComponent(a.email)}?subject=${encodeURIComponent("Επικοινωνία μέσω LEGALMARTIK")}">Επικοινωνία</a></article>`).join("");
 }
-function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function openRegistration(){document.getElementById("registrationModal").classList.add("open")}
-function closeRegistration(){document.getElementById("registrationModal").classList.remove("open")}
-document.getElementById("lawyerForm").addEventListener("submit",e=>{
- e.preventDefault();const f=new FormData(e.target), specialties=f.getAll("specialties");
- if(!specialties.length){toast("Επιλέξτε τουλάχιστον μία ειδικότητα.");return}
- const apps=readApps();apps.push({id:Date.now().toString(),name:f.get("name"),email:f.get("email"),phone:f.get("phone"),bar:f.get("bar"),registry:f.get("registry"),experience:f.get("experience"),region:f.get("region"),unit:f.get("unit"),city:f.get("city"),specialties,hourly:f.get("hourly"),fixed:f.get("fixed"),bio:f.get("bio"),website:f.get("website"),status:"pending",created:new Date().toISOString()});
- saveApps(apps);e.target.reset();updateUnits();closeRegistration();toast("Η αίτησή σας καταχωρίστηκε και αναμένει έγκριση.");if(document.getElementById("adminPanel").classList.contains("active"))renderAdmin();
+function openRegistration(){document.getElementById("registrationModal").classList.add("open");}
+function closeRegistration(){document.getElementById("registrationModal").classList.remove("open");}
+document.getElementById("lawyerForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const f=new FormData(e.target), specialties=f.getAll("specialties");
+ if(!specialties.length){toast("Επιλέξτε τουλάχιστον μία ειδικότητα.");return;}
+ const payload={name:f.get("name"),email:f.get("email"),phone:f.get("phone"),bar:f.get("bar"),registry:f.get("registry"),experience:f.get("experience")||null,region:f.get("region"),unit:f.get("unit"),city:f.get("city"),specialties,hourly:f.get("hourly")||null,fixed:f.get("fixed")||null,bio:f.get("bio"),website:f.get("website"),status:"pending"};
+ const submit=e.target.querySelector('button[type="submit"]'); submit.disabled=true; submit.textContent="Αποθήκευση...";
+ const {error}=await supabase.from("lawyer_applications").insert(payload);
+ submit.disabled=false; submit.textContent="Υποβολή αίτησης";
+ if(error){console.error(error);toast("Η αποθήκευση απέτυχε. Ελέγξτε τη ρύθμιση της βάσης και δοκιμάστε ξανά.");return;}
+ e.target.reset();updateUnits();closeRegistration();toast("Η αίτηση αποθηκεύτηκε και αναμένει έγκριση.");
+ if(document.getElementById("adminPanel").classList.contains("active")) await renderAdmin();
 });
-function showAdmin(){document.getElementById("publicSite").classList.add("hidden");document.getElementById("siteHeader").classList.add("hidden");document.getElementById("siteFooter").classList.add("hidden");document.getElementById("adminArea").classList.add("active");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPanel").classList.remove("active");const first=!localStorage.getItem(PASSKEY);document.getElementById("firstSetup").classList.toggle("hidden",!first);document.getElementById("adminLoginBtn").textContent=first?"Δημιουργία κωδικού και συνέχεια":"Σύνδεση διαχειριστή";window.scrollTo(0,0)}
-function backToSite(){document.getElementById("adminArea").classList.remove("active");document.getElementById("publicSite").classList.remove("hidden");document.getElementById("siteHeader").classList.remove("hidden");document.getElementById("siteFooter").classList.remove("hidden");window.scrollTo(0,0)}
-function adminLogin(){
- const email=document.getElementById("adminEmail").value,pass=document.getElementById("adminPassword").value;
- if(email!==ADMIN_EMAIL){toast("Μη εξουσιοδοτημένο email.");return}
- if(!localStorage.getItem(PASSKEY)){
-  const p2=document.getElementById("adminPassword2").value;if(pass.length<10){toast("Ο κωδικός πρέπει να έχει τουλάχιστον 10 χαρακτήρες.");return}if(pass!==p2){toast("Οι κωδικοί δεν ταιριάζουν.");return}
-  localStorage.setItem(PASSKEY,pass);toast("Ο τοπικός κωδικός δημιουργήθηκε.");
- }else if(pass!==localStorage.getItem(PASSKEY)){toast("Λανθασμένος κωδικός.");return}
- // Demo-only one-time code: generated locally, not sent to email.
- const code=String(Math.floor(100000+Math.random()*900000));sessionStorage.setItem("lm_demo_otp",code);
- const entered=prompt("ΔΟΚΙΜΑΣΤΙΚΗ ΕΠΙΒΕΒΑΙΩΣΗ\nΟ κωδικός μιας χρήσης (OTP) για αυτή την επίδειξη είναι: "+code+"\n\nΣε πραγματική έκδοση ο κωδικός θα αποστέλλεται στο email σας από ασφαλή server.");
- if(entered!==code){toast("Η επιβεβαίωση δεν ολοκληρώθηκε.");return}
- sessionStorage.removeItem("lm_demo_otp");document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminPanel").classList.add("active");renderAdmin();
+function showAdmin(){
+ document.getElementById("publicSite").classList.add("hidden");document.getElementById("siteHeader").classList.add("hidden");document.getElementById("siteFooter").classList.add("hidden");
+ document.getElementById("adminArea").classList.add("active");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPanel").classList.remove("active");
+ document.getElementById("adminEmail").value=ADMIN_EMAIL;document.getElementById("adminLoginBtn").textContent="Σύνδεση διαχειριστή";
+ window.scrollTo(0,0); checkExistingSession();
 }
-function adminLogout(){document.getElementById("adminPanel").classList.remove("active");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPassword").value="";toast("Έγινε αποσύνδεση.")}
-function setAdminTab(tab,btn){adminTab=tab;document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");renderAdmin()}
-function renderAdmin(){
- const a=readApps();document.getElementById("pendingCount").textContent=a.filter(x=>x.status==="pending").length;document.getElementById("approvedCount").textContent=a.filter(x=>x.status==="approved").length;document.getElementById("totalCount").textContent=a.length;
- const list=a.filter(x=>x.status===adminTab);const el=document.getElementById("applicationList");
- if(!list.length){el.innerHTML='<div class="empty">Δεν υπάρχουν αιτήσεις σε αυτή την κατηγορία.</div>';return}
- el.innerHTML=list.map(x=>`<article class="application"><div class="status">${x.status==="pending"?"Σε αναμονή":x.status==="approved"?"Εγκεκριμένος":"Απορριφθείς"}</div><h3>${safe(x.name)}</h3><p>${safe(x.email)} · ${safe(x.phone)}</p><p>${safe(x.bar)} · Αρ. μητρώου: ${safe(x.registry)}</p><p>${safe(x.region)} / ${safe(x.unit)} · ${safe(x.city)}</p><p><strong>Ειδικότητες:</strong> ${x.specialties.map(safe).join(", ")}</p><p><strong>Αμοιβή:</strong> ${x.hourly?safe(x.hourly)+" €/ώρα":"Δεν δηλώθηκε ωριαία"} · ${x.fixed?safe(x.fixed)+" € συνολικά":"Δεν δηλώθηκε συνολική"}</p><p><strong>Εμπειρία:</strong> ${safe(x.experience||"Δεν δηλώθηκε")} έτη</p><p><strong>Περιγραφή:</strong> ${safe(x.bio||"Δεν καταχωρίστηκε")}</p>${x.website?`<p>Ιστοσελίδα: ${safe(x.website)}</p>`:""}<div class="actions">${x.status!=="approved"?`<button class="btn small" onclick="changeStatus('${x.id}','approved')">Έγκριση προφίλ</button>`:""}${x.status!=="rejected"?`<button class="danger" onclick="changeStatus('${x.id}','rejected')">Απόρριψη</button>`:""}${x.status!=="pending"?`<button class="btn small outline" style="color:var(--navy)" onclick="changeStatus('${x.id}','pending')">Επαναφορά σε αναμονή</button>`:""}<button class="danger" onclick="deleteApplication('${x.id}')">Διαγραφή</button></div></article>`).join("");
+function backToSite(){document.getElementById("adminArea").classList.remove("active");document.getElementById("publicSite").classList.remove("hidden");document.getElementById("siteHeader").classList.remove("hidden");document.getElementById("siteFooter").classList.remove("hidden");window.scrollTo(0,0);}
+async function checkExistingSession(){
+ const {data}=await supabase.auth.getSession();
+ if(data.session?.user?.email===ADMIN_EMAIL) showAdminPanel();
 }
-function changeStatus(id,status){const a=readApps(),x=a.find(v=>v.id===id);if(!x)return;x.status=status;saveApps(a);renderAdmin();renderDirectory(a.filter(v=>v.status==="approved"));toast("Η κατάσταση της αίτησης ενημερώθηκε.")}
-function deleteApplication(id){if(!confirm("Να διαγραφεί οριστικά αυτή η αίτηση από τον τοπικό browser;"))return;saveApps(readApps().filter(x=>x.id!==id));renderAdmin();toast("Η αίτηση διαγράφηκε.")}
-fillSelects();renderDirectory(readApps().filter(x=>x.status==="approved"));
+async function adminLogin(){
+ const email=document.getElementById("adminEmail").value.trim(),pass=document.getElementById("adminPassword").value;
+ if(email!==ADMIN_EMAIL){toast("Μη εξουσιοδοτημένο email.");return;}
+ if(!pass){toast("Συμπληρώστε τον κωδικό σας.");return;}
+ const btn=document.getElementById("adminLoginBtn");btn.disabled=true;btn.textContent="Σύνδεση...";
+ const {data,error}=await supabase.auth.signInWithPassword({email,password:pass});
+ btn.disabled=false;btn.textContent="Σύνδεση διαχειριστή";
+ if(error){console.error(error);toast("Η σύνδεση απέτυχε. Ελέγξτε email και κωδικό.");return;}
+ if(data.user?.email!==ADMIN_EMAIL){await supabase.auth.signOut();toast("Δεν επιτρέπεται η πρόσβαση.");return;}
+ document.getElementById("adminPassword").value="";showAdminPanel();
+}
+function showAdminPanel(){document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminPanel").classList.add("active");renderAdmin();}
+async function adminLogout(){await supabase.auth.signOut();document.getElementById("adminPanel").classList.remove("active");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPassword").value="";toast("Έγινε αποσύνδεση.");}
+function setAdminTab(tab,btn){adminTab=tab;document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");renderAdmin();}
+async function renderAdmin(){
+ const {data,error}=await supabase.from("lawyer_applications").select("*").order("created_at",{ascending:false});
+ if(error){console.error(error);toast("Δεν ήταν δυνατή η φόρτωση αιτήσεων. Ελέγξτε τη σύνδεση και τα δικαιώματα.");return;}
+ cachedApplications=data||[];
+ document.getElementById("pendingCount").textContent=cachedApplications.filter(x=>x.status==="pending").length;
+ document.getElementById("approvedCount").textContent=cachedApplications.filter(x=>x.status==="approved").length;
+ document.getElementById("totalCount").textContent=cachedApplications.length;
+ const list=cachedApplications.filter(x=>x.status===adminTab),el=document.getElementById("applicationList");
+ if(!list.length){el.innerHTML='<div class="empty">Δεν υπάρχουν αιτήσεις σε αυτή την κατηγορία.</div>';return;}
+ el.innerHTML=list.map(x=>`<article class="application"><div class="status">${x.status==="pending"?"Σε αναμονή":x.status==="approved"?"Εγκεκριμένος":"Απορριφθείς"}</div><h3>${safe(x.name)}</h3><p>${safe(x.email)} · ${safe(x.phone)}</p><p>${safe(x.bar)} · Αρ. μητρώου: ${safe(x.registry)}</p><p>${safe(x.region)} / ${safe(x.unit)} · ${safe(x.city)}</p><p><strong>Ειδικότητες:</strong> ${(x.specialties||[]).map(safe).join(", ")}</p><p><strong>Αμοιβή:</strong> ${x.hourly?safe(x.hourly)+" €/ώρα":"Δεν δηλώθηκε ωριαία"} · ${x.fixed?safe(x.fixed)+" € συνολικά":"Δεν δηλώθηκε συνολική"}</p><p><strong>Εμπειρία:</strong> ${safe(x.experience||"Δεν δηλώθηκε")} έτη</p><p><strong>Περιγραφή:</strong> ${safe(x.bio||"Δεν καταχωρίστηκε")}</p>${x.website?`<p>Ιστοσελίδα: ${safe(x.website)}</p>`:""}<div class="actions">${x.status!=="approved"?`<button class="btn small" onclick="changeStatus('${x.id}','approved')">Έγκριση προφίλ</button>`:""}${x.status!=="rejected"?`<button class="danger" onclick="changeStatus('${x.id}','rejected')">Απόρριψη</button>`:""}${x.status!=="pending"?`<button class="btn small outline" style="color:var(--navy)" onclick="changeStatus('${x.id}','pending')">Επαναφορά σε αναμονή</button>`:""}<button class="danger" onclick="deleteApplication('${x.id}')">Διαγραφή</button></div></article>`).join("");
+}
+async function changeStatus(id,status){
+ const {data:app,error}=await supabase.from("lawyer_applications").update({status}).eq("id",id).select().single();
+ if(error){console.error(error);toast("Δεν ήταν δυνατή η ενημέρωση της αίτησης.");return;}
+ if(status==="approved"){
+  const pub={id:app.id,name:app.name,email:app.email,bar:app.bar,region:app.region,unit:app.unit,city:app.city,specialties:app.specialties,bio:app.bio,hourly:app.hourly,fixed:app.fixed,website:app.website,created_at:app.created_at};
+  const {error:pubError}=await supabase.from("lawyer_public_profiles").upsert(pub);
+  if(pubError){console.error(pubError);toast("Η αίτηση εγκρίθηκε, αλλά η δημοσίευση απέτυχε. Ελέγξτε τον πίνακα δημόσιων προφίλ.");await renderAdmin();return;}
+ } else {
+  const {error:delError}=await supabase.from("lawyer_public_profiles").delete().eq("id",id);
+  if(delError){console.error(delError);toast("Η κατάσταση άλλαξε, αλλά δεν ενημερώθηκε ο δημόσιος κατάλογος.");await renderAdmin();return;}
+ }
+ await renderAdmin();await loadDirectory();toast("Η κατάσταση της αίτησης ενημερώθηκε.");
+}
+async function deleteApplication(id){
+ if(!confirm("Να διαγραφεί οριστικά αυτή η αίτηση;"))return;
+ const {error}=await supabase.from("lawyer_applications").delete().eq("id",id);
+ if(error){console.error(error);toast("Η διαγραφή απέτυχε.");return;}
+ await supabase.from("lawyer_public_profiles").delete().eq("id",id);
+ await renderAdmin();await loadDirectory();toast("Η αίτηση διαγράφηκε.");
+}
+window.openRegistration=openRegistration;window.closeRegistration=closeRegistration;window.showAdmin=showAdmin;window.backToSite=backToSite;
+window.adminLogin=adminLogin;window.adminLogout=adminLogout;window.setAdminTab=setAdminTab;
+window.searchDirectory=searchDirectory;window.pickSpecialty=pickSpecialty;window.changeStatus=changeStatus;window.deleteApplication=deleteApplication;
+fillSelects();loadDirectory();
 </script>
 </body>
 </html>
