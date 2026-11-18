@@ -14,89 +14,167 @@
 </style>
 </head>
 <body>
-<div class="topbar"><div class="wrap"><span>ΕΠΑΓΓΕΛΜΑΤΙΚΟΣ ΚΑΤΑΛΟΓΟΣ ΝΟΜΙΚΩΝ ΥΠΗΡΕΣΙΩΝ</span><span>ΠΑΝΕΛΛΑΔΙΚΗ ΑΝΑΖΗΤΗΣΗ · LEGALMARTIK</span></div></div>
-<header class="header" id="siteHeader"><div class="wrap nav">
-<a class="brand" href="#home">LEGALMARTIK<small>LEGAL PROFESSIONAL DIRECTORY</small></a>
-<nav class="navlinks"><a href="#specialties">Ειδικότητες</a><a href="#lawyers">Δικηγόροι</a><a href="#pricing">Συνδρομές</a><button class="btn small outline" onclick="openRegistration()">Εγγραφή δικηγόρου</button><a href="#" onclick="showAdmin();return false">Admin</a></nav>
-</div></header>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>ΕΠΑΓΓΕΛΜΑΤΙΚΟΣ ΚΑΤΑΛΟΓΟΣ ΝΟΜΙΚΩΝ ΥΠΗΡΕΣΙΩΝ</span>
+    <span>ΠΑΝΕΛΛΑΔΙΚΗ ΑΝΑΖΗΤΗΣΗ · LEGALMARTIK</span>
+  </div>
+</div>
+
+<header class="header" id="siteHeader">
+  <div class="wrap nav">
+    <a class="brand" href="#home">LEGALMARTIK<small>LEGAL PROFESSIONAL DIRECTORY</small></a>
+    <nav class="navlinks">
+      <a href="#specialties">Ειδικότητες</a>
+      <a href="#lawyers">Δικηγόροι</a>
+      <a href="#pricing">Συνδρομές</a>
+      <button class="btn small outline" onclick="openAuth()">Εγγραφή / Σύνδεση</button>
+    </nav>
+  </div>
+</header>
 
 <main id="publicSite">
-<section class="hero" id="home"><div class="wrap">
-<div class="eyebrow">Η σύγχρονη νομική αναζήτηση</div>
-<h1>Η σωστή νομική υποστήριξη ξεκινά εδώ.</h1>
-<p>Αναζητήστε δικηγόρους σε όλη την Ελλάδα με βάση την ειδικότητα και την περιοχή. Ενημερωθείτε για το επαγγελματικό τους προφίλ και επικοινωνήστε απευθείας.</p>
-<div class="searchpanel">
-<div class="field"><label>Νομική ειδικότητα</label><select id="searchSpecialty"><option value="">Όλες οι ειδικότητες</option></select></div>
-<div class="field"><label>Περιοχή</label><select id="searchRegion"><option value="">Όλη η Ελλάδα</option></select></div>
-<button class="btn" onclick="searchDirectory()">Αναζήτηση δικηγόρων</button>
-</div></div></section>
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="eyebrow">Η σύγχρονη νομική αναζήτηση</div>
+    <h1>Η σωστή νομική υποστήριξη ξεκινά εδώ.</h1>
+    <p>Αναζητήστε δικηγόρους σε όλη την Ελλάδα με βάση την ειδικότητα και την περιοχή. Ενημερωθείτε για το επαγγελματικό τους προφίλ και επικοινωνήστε απευθείας.</p>
+    <div class="searchpanel">
+      <div class="field"><label>Νομική ειδικότητα</label><select id="searchSpecialty"><option value="">Όλες οι ειδικότητες</option></select></div>
+      <div class="field"><label>Περιοχή</label><select id="searchRegion"><option value="">Όλη η Ελλάδα</option></select></div>
+      <button class="btn" onclick="searchDirectory()">Αναζήτηση δικηγόρων</button>
+    </div>
+  </div>
+</section>
 
-<section class="section" id="specialties"><div class="wrap">
-<div class="sectionhead"><div class="eyebrow">Τομείς δικαίου</div><h2>Αναζητήστε ανά ειδικότητα</h2><p>Επιλέξτε τον νομικό τομέα που ανταποκρίνεται στις ανάγκες σας.</p></div>
-<div class="specialties" id="specialtyTiles"></div>
-</div></section>
+<section class="section" id="specialties">
+  <div class="wrap">
+    <div class="sectionhead"><div class="eyebrow">Τομείς δικαίου</div><h2>Αναζητήστε ανά ειδικότητα</h2><p>Επιλέξτε τον νομικό τομέα που ανταποκρίνεται στις ανάγκες σας.</p></div>
+    <div class="specialties" id="specialtyTiles"></div>
+  </div>
+</section>
 
-<section class="section white" id="lawyers"><div class="wrap">
-<div class="sectionhead"><div class="eyebrow">Εγκεκριμένα επαγγελματικά προφίλ</div><h2>Δικηγόροι της πλατφόρμας</h2><p>Στον δημόσιο κατάλογο εμφανίζονται μόνο προφίλ που έχουν εγκριθεί από τη διαχείριση του LEGALMARTIK.</p></div>
-<div class="lawyer-grid" id="lawyerResults"><div class="empty">Δεν υπάρχουν ακόμη εγκεκριμένα προφίλ. Οι νέες αιτήσεις ελέγχονται από τον διαχειριστή.</div></div>
-</div></section>
+<section class="section white" id="lawyers">
+  <div class="wrap">
+    <div class="sectionhead"><div class="eyebrow">Εγκεκριμένα επαγγελματικά προφίλ</div><h2>Δικηγόροι της πλατφόρμας</h2><p>Στον δημόσιο κατάλογο εμφανίζονται μόνο προφίλ που έχουν εγκριθεί από τη διαχείριση του LEGALMARTIK.</p></div>
+    <div class="lawyer-grid" id="lawyerResults"><div class="empty">Δεν υπάρχουν ακόμη εγκεκριμένα προφίλ. Οι νέες αιτήσεις ελέγχονται από τον διαχειριστή.</div></div>
+  </div>
+</section>
 
-<section class="cta"><div class="wrap row"><div><div class="eyebrow">Για νομικούς επαγγελματίες</div><h2>Δημιουργήστε την επαγγελματική σας παρουσία.</h2><p>Υποβάλετε αίτηση και περιμένετε την έγκριση της ομάδας διαχείρισης.</p></div><button class="btn" onclick="openRegistration()">Υποβολή αίτησης συνεργασίας</button></div></section>
+<section class="cta">
+  <div class="wrap row">
+    <div><div class="eyebrow">Για νομικούς επαγγελματίες</div><h2>Δημιουργήστε την επαγγελματική σας παρουσία.</h2><p>Υποβάλετε αίτηση και περιμένετε την έγκριση της ομάδας διαχείρισης.</p></div>
+    <button class="btn" onclick="openAuth('register')">Υποβολή αίτησης συνεργασίας</button>
+  </div>
+</section>
 
-<section class="section" id="pricing"><div class="wrap">
-<div class="sectionhead"><div class="eyebrow">Συνεργασία</div><h2>Επιλογές επαγγελματικής παρουσίας</h2><p>Ενδεικτικά πακέτα για μελλοντική ενεργοποίηση. Οι πληρωμές δεν είναι ενεργές σε αυτή την έκδοση.</p></div>
-<div class="plans">
-<div class="plan"><h3>Basic</h3><div class="price">Δωρεάν</div><ul><li>Βασικό επαγγελματικό προφίλ</li><li>Στοιχεία ειδικότητας και περιοχής</li><li>Έγκριση πριν από τη δημοσίευση</li></ul><button class="btn outline" onclick="openRegistration()">Εκδήλωση ενδιαφέροντος</button></div>
-<div class="plan featured"><div class="eyebrow">Προτεινόμενο</div><h3>Professional</h3><div class="price">19€ <small style="font:12px Arial">/ μήνα</small></div><ul><li>Εκτενέστερο επαγγελματικό προφίλ</li><li>Πολλαπλές ειδικότητες και περιοχές</li><li>Στατιστικά προβολών</li></ul><button class="btn" onclick="openRegistration()">Εκδήλωση ενδιαφέροντος</button></div>
-<div class="plan"><h3>Premium</h3><div class="price">39€ <small style="font:12px Arial">/ μήνα</small></div><ul><li>Πλήρες επαγγελματικό προφίλ</li><li>Εργαλεία διαχείρισης προφίλ</li><li>Αναλυτικά στατιστικά</li></ul><button class="btn outline" onclick="openRegistration()">Εκδήλωση ενδιαφέροντος</button></div>
-</div><p class="note">Οι τιμές είναι ενδεικτικές και δεν αποτελούν ενεργή εμπορική προσφορά. Η προβολή και οι συνδρομές πρέπει να ελεγχθούν ως προς τους ισχύοντες κανόνες του δικηγορικού επαγγέλματος.</p>
-</div></section>
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="sectionhead"><div class="eyebrow">Συνεργασία</div><h2>Επιλογές επαγγελματικής παρουσίας</h2><p>Ενδεικτικά πακέτα για μελλοντική ενεργοποίηση. Οι πληρωμές δεν είναι ενεργές σε αυτή την έκδοση.</p></div>
+    <div class="plans">
+      <div class="plan"><h3>Basic</h3><div class="price">Δωρεάν</div><ul><li>Βασικό επαγγελματικό προφίλ</li><li>Στοιχεία ειδικότητας και περιοχής</li><li>Έγκριση πριν από τη δημοσίευση</li></ul><button class="btn outline" onclick="openAuth('register')">Εκδήλωση ενδιαφέροντος</button></div>
+      <div class="plan featured"><div class="eyebrow">Προτεινόμενο</div><h3>Professional</h3><div class="price">19€ <small style="font:12px Arial">/ μήνα</small></div><ul><li>Εκτενέστερο επαγγελματικό προφίλ</li><li>Πολλαπλές ειδικότητες και περιοχές</li><li>Στατιστικά προβολών</li></ul><button class="btn" onclick="openAuth('register')">Εκδήλωση ενδιαφέροντος</button></div>
+      <div class="plan"><h3>Premium</h3><div class="price">39€ <small style="font:12px Arial">/ μήνα</small></div><ul><li>Πλήρες επαγγελματικό προφίλ</li><li>Εργαλεία διαχείρισης προφίλ</li><li>Αναλυτικά στατιστικά</li></ul><button class="btn outline" onclick="openAuth('register')">Εκδήλωση ενδιαφέροντος</button></div>
+    </div>
+    <p class="note">Οι τιμές είναι ενδεικτικές και δεν αποτελούν ενεργή εμπορική προσφορά. Η προβολή και οι συνδρομές πρέπει να ελεγχθούν ως προς τους ισχύοντες κανόνες του δικηγορικού επαγγέλματος.</p>
+  </div>
+</section>
 </main>
 
-<section class="adminarea" id="adminArea"><div class="wrap">
-<div class="adminlogin" id="adminLogin">
-<div class="eyebrow">Περιοχή διαχείρισης</div><h2>Admin access</h2><p>Η πρόσβαση προορίζεται αποκλειστικά για τον διαχειριστή της πλατφόρμας.</p>
-<div class="warning">Η πρόσβαση διαχειριστή γίνεται μέσω Supabase Auth. Ο λογαριασμός διαχειριστή πρέπει να δημιουργηθεί πρώτα από το Supabase Dashboard.</div>
-<div class="field"><label>Email διαχειριστή</label><input id="adminEmail" type="email" value="orestis.mart09@gmail.com" readonly></div>
-<div class="field" style="margin-top:12px"><label>Κωδικός διαχειριστή</label><input id="adminPassword" type="password" placeholder="Ο κωδικός που θα ορίσεις"></div>
+<!-- Περιοχή διαχείρισης: εμφανίζεται μετά τη σύνδεση του admin -->
+<section class="adminarea" id="adminArea">
+<div class="wrap">
+  <div class="adminlogin hidden" id="adminLogin">
+    <div class="eyebrow">Περιοχή διαχείρισης</div>
+    <h2>Admin access</h2>
+    <p>Η πρόσβαση προορίζεται αποκλειστικά για τον διαχειριστή της πλατφόρμας.</p>
+    <div class="warning">Η πρόσβαση διαχειριστή γίνεται μέσω του ίδιου σημείου σύνδεσης με τους δικηγόρους.</div>
+    <button class="btn outline" style="width:100%;margin-top:9px;color:var(--navy)" onclick="backToSite()">Επιστροφή στην ιστοσελίδα</button>
+  </div>
 
-<button class="btn" style="width:100%;margin-top:15px" id="adminLoginBtn" onclick="adminLogin()">Σύνδεση διαχειριστή</button>
-<button class="btn outline" style="width:100%;margin-top:9px;color:var(--navy)" onclick="backToSite()">Επιστροφή στην ιστοσελίδα</button>
+  <div class="adminpanel" id="adminPanel">
+    <div class="adminhead">
+      <div><div class="eyebrow">LEGALMARTIK / CONTROL CENTER</div><h2>Πίνακας διαχείρισης</h2><div class="muted">Συνδεδεμένος διαχειριστής: orestis.mart09@gmail.com</div></div>
+      <button class="btn dark" onclick="adminLogout()">Αποσύνδεση</button>
+    </div>
+    <div class="warning">Τα δεδομένα αιτήσεων και δημόσιων προφίλ αποθηκεύονται στη βάση Supabase. Η πρόσβαση ελέγχεται με Supabase Auth και RLS.</div>
+    <div class="stats">
+      <div class="stat"><span>Σε αναμονή</span><strong id="pendingCount">0</strong></div>
+      <div class="stat"><span>Εγκεκριμένοι</span><strong id="approvedCount">0</strong></div>
+      <div class="stat"><span>Συνολικές αιτήσεις</span><strong id="totalCount">0</strong></div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="setAdminTab('pending',this)">Αιτήσεις σε αναμονή</button>
+      <button class="tab" onclick="setAdminTab('approved',this)">Εγκεκριμένοι</button>
+      <button class="tab" onclick="setAdminTab('rejected',this)">Απορριφθέντες</button>
+    </div>
+    <div id="applicationList"></div>
+  </div>
+</div>
+</section>
+
+<footer class="footer" id="siteFooter">
+  <div class="wrap">
+    <a class="brand" href="#home">LEGALMARTIK<small>LEGAL PROFESSIONAL DIRECTORY</small></a>
+    <div class="footerline"><span>© 2026 LEGALMARTIK. Με επιφύλαξη παντός δικαιώματος.</span><span>Όροι χρήσης · Πολιτική απορρήτου · Επικοινωνία</span></div>
+  </div>
+</footer>
+
+<!-- Φόρμα εγγραφής δικηγόρου -->
+<div class="modal" id="registrationModal">
+<div class="modalbox">
+  <button class="close" onclick="closeRegistration()" aria-label="Κλείσιμο">×</button>
+  <div class="eyebrow">Αίτηση επαγγελματικής εγγραφής</div>
+  <h2>Δημιουργία προφίλ δικηγόρου</h2>
+  <p>Συμπληρώστε τα στοιχεία σας. Το προφίλ θα παραμείνει μη δημόσιο μέχρι να ελεγχθεί και να εγκριθεί από τον διαχειριστή.</p>
+
+  <form id="lawyerForm">
+    <div class="formgrid">
+      <div class="field"><label>Ονοματεπώνυμο *</label><input name="name" required maxlength="100"></div>
+      <div class="field"><label>Email *</label><input name="email" type="email" required autocomplete="email"></div>
+      <div class="field"><label>Κωδικός πρόσβασης *</label><input name="password" type="password" required minlength="8" autocomplete="new-password" placeholder="Τουλάχιστον 8 χαρακτήρες"></div>
+      <div class="field"><label>Τηλέφωνο επικοινωνίας *</label><input name="phone" type="tel" required></div>
+      <div class="field"><label>Δικηγορικός σύλλογος *</label><input name="bar" required placeholder="π.χ. Δικηγορικός Σύλλογος Αθηνών"></div>
+      <div class="field"><label>Αριθμός μητρώου συλλόγου *</label><input name="registry" required></div>
+      <div class="field"><label>Έτη επαγγελματικής εμπειρίας</label><input name="experience" type="number" min="0" max="80"></div>
+      <div class="field"><label>Περιφέρεια *</label><select name="region" id="lawyerRegion" required></select></div>
+      <div class="field"><label>Περιφερειακή ενότητα *</label><select name="unit" id="lawyerUnit" required></select></div>
+      <div class="field full"><label>Πόλη / Δήμος / Περιοχή εξυπηρέτησης</label><input name="city" placeholder="π.χ. Αθήνα, Μαρούσι, Χαλάνδρι"></div>
+      <div class="field full"><label>Νομικές ειδικότητες και υποθέσεις που αναλαμβάνετε *</label><div class="checkgrid" id="specialtyChecks"></div></div>
+      <div class="field"><label>Ωριαία αμοιβή (€) — προαιρετικά</label><input name="hourly" type="number" min="0" step="0.01" placeholder="π.χ. 80"></div>
+      <div class="field"><label>Ενδεικτική συνολική αμοιβή (€) — προαιρετικά</label><input name="fixed" type="number" min="0" step="0.01" placeholder="π.χ. 500"></div>
+      <div class="field full"><label>Περιγραφή επαγγελματικού προφίλ</label><textarea name="bio" rows="4" maxlength="1500" placeholder="Εμπειρία, τομείς δραστηριότητας, γλώσσες και άλλες επαγγελματικές πληροφορίες..."></textarea></div>
+      <div class="field full"><label>Ιστοσελίδα ή επαγγελματικό προφίλ (προαιρετικά)</label><input name="website" type="url" placeholder="https://"></div>
+      <div class="field full"><label><input name="consent" type="checkbox" required style="width:auto"> Δηλώνω ότι τα στοιχεία που υποβάλλω είναι ακριβή και αποδέχομαι την επεξεργασία τους για την εξέταση της αίτησής μου. *</label></div>
+    </div>
+    <div class="formactions">
+      <button type="button" class="btn outline" style="color:var(--navy)" onclick="closeRegistration()">Ακύρωση</button>
+      <button class="btn" type="submit">Δημιουργία λογαριασμού και υποβολή</button>
+    </div>
+  </form>
+</div>
 </div>
 
-<div class="adminpanel" id="adminPanel">
-<div class="adminhead"><div><div class="eyebrow">LEGALMARTIK / CONTROL CENTER</div><h2>Πίνακας διαχείρισης</h2><div class="muted">Συνδεδεμένος διαχειριστής: orestis.mart09@gmail.com</div></div><button class="btn dark" onclick="adminLogout()">Αποσύνδεση</button></div>
-<div class="warning">Τα δεδομένα αιτήσεων και δημόσιων προφίλ αποθηκεύονται στη βάση Supabase. Η πρόσβαση διαχειριστή προστατεύεται με Supabase Auth και RLS.</div>
-<div class="stats"><div class="stat"><span>Σε αναμονή</span><strong id="pendingCount">0</strong></div><div class="stat"><span>Εγκεκριμένοι</span><strong id="approvedCount">0</strong></div><div class="stat"><span>Συνολικές αιτήσεις</span><strong id="totalCount">0</strong></div></div>
-<div class="tabs"><button class="tab active" onclick="setAdminTab('pending',this)">Αιτήσεις σε αναμονή</button><button class="tab" onclick="setAdminTab('approved',this)">Εγκεκριμένοι</button><button class="tab" onclick="setAdminTab('rejected',this)">Απορριφθέντες</button></div>
-<div id="applicationList"></div>
-</div></div></section>
-
-<footer class="footer" id="siteFooter"><div class="wrap"><a class="brand" href="#home">LEGALMARTIK<small>LEGAL PROFESSIONAL DIRECTORY</small></a><div class="footerline"><span>© 2026 LEGALMARTIK. Με επιφύλαξη παντός δικαιώματος.</span><span>Όροι χρήσης · Πολιτική απορρήτου · Επικοινωνία</span></div></div></footer>
-
-<div class="modal" id="registrationModal"><div class="modalbox">
-<button class="close" onclick="closeRegistration()" aria-label="Κλείσιμο">×</button>
-<div class="eyebrow">Αίτηση επαγγελματικής εγγραφής</div><h2>Δημιουργία προφίλ δικηγόρου</h2><p>Συμπληρώστε τα στοιχεία σας. Το προφίλ θα παραμείνει μη δημόσιο μέχρι να ελεγχθεί και να εγκριθεί από τον διαχειριστή.</p>
-<form id="lawyerForm">
-<div class="formgrid">
-<div class="field"><label>Ονοματεπώνυμο *</label><input name="name" required maxlength="100"></div>
-<div class="field"><label>Email *</label><input name="email" type="email" required></div>
-<div class="field"><label>Τηλέφωνο επικοινωνίας *</label><input name="phone" type="tel" required></div>
-<div class="field"><label>Δικηγορικός σύλλογος *</label><input name="bar" required placeholder="π.χ. Δικηγορικός Σύλλογος Αθηνών"></div>
-<div class="field"><label>Αριθμός μητρώου συλλόγου *</label><input name="registry" required></div>
-<div class="field"><label>Έτη επαγγελματικής εμπειρίας</label><input name="experience" type="number" min="0" max="80"></div>
-<div class="field"><label>Περιφέρεια *</label><select name="region" id="lawyerRegion" required></select></div>
-<div class="field"><label>Περιφερειακή ενότητα *</label><select name="unit" id="lawyerUnit" required></select></div>
-<div class="field full"><label>Πόλη / Δήμος / Περιοχή εξυπηρέτησης</label><input name="city" placeholder="π.χ. Αθήνα, Μαρούσι, Χαλάνδρι"></div>
-<div class="field full"><label>Νομικές ειδικότητες και υποθέσεις που αναλαμβάνετε *</label><div class="checkgrid" id="specialtyChecks"></div></div>
-<div class="field"><label>Ωριαία αμοιβή (€) — προαιρετικά</label><input name="hourly" type="number" min="0" step="0.01" placeholder="π.χ. 80"></div>
-<div class="field"><label>Ενδεικτική συνολική αμοιβή (€) — προαιρετικά</label><input name="fixed" type="number" min="0" step="0.01" placeholder="π.χ. 500"></div>
-<div class="field full"><label>Περιγραφή επαγγελματικού προφίλ</label><textarea name="bio" rows="4" maxlength="1500" placeholder="Εμπειρία, τομείς δραστηριότητας, γλώσσες και άλλες επαγγελματικές πληροφορίες..."></textarea></div>
-<div class="field full"><label>Ιστοσελίδα ή επαγγελματικό προφίλ (προαιρετικά)</label><input name="website" type="url" placeholder="https://"></div>
-<div class="field full"><label><input name="consent" type="checkbox" required style="width:auto"> Δηλώνω ότι τα στοιχεία που υποβάλλω είναι ακριβή και αποδέχομαι την επεξεργασία τους για την εξέταση της αίτησής μου. *</label></div>
+<!-- Κοινή φόρμα σύνδεσης δικηγόρου και διαχειριστή -->
+<div class="modal" id="loginModal">
+<div class="modalbox" style="max-width:460px">
+  <button class="close" onclick="closeLogin()" aria-label="Κλείσιμο">×</button>
+  <div class="eyebrow">LEGALMARTIK ACCOUNT</div>
+  <h2>Σύνδεση</h2>
+  <p>Η ίδια φόρμα χρησιμοποιείται από δικηγόρους και διαχειριστή.</p>
+  <form id="loginForm">
+    <div class="field"><label>Email</label><input id="loginEmail" type="email" required autocomplete="username"></div>
+    <div class="field" style="margin-top:13px"><label>Κωδικός πρόσβασης</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+    <button class="btn" id="loginButton" type="submit" style="width:100%;margin-top:18px">Σύνδεση</button>
+    <p class="muted" style="margin-top:15px;text-align:center">
+      Δεν έχετε λογαριασμό δικηγόρου;
+      <a href="#" onclick="closeLogin();openRegistration();return false">Κάντε εγγραφή εδώ.</a>
+    </p>
+  </form>
 </div>
-<div class="formactions"><button type="button" class="btn outline" style="color:var(--navy)" onclick="closeRegistration()">Ακύρωση</button><button class="btn" type="submit">Υποβολή αίτησης</button></div>
-</form></div></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -105,8 +183,20 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL = "https://rzojjrntyvcnxeogibqx.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_fMjcPVsF8VOrNSaTnoheCA_un3A0HtV";
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
 const ADMIN_EMAIL = "orestis.mart09@gmail.com";
-const SPECIALTIES = ["Αστικό Δίκαιο","Ποινικό Δίκαιο","Οικογενειακό Δίκαιο","Εργατικό Δίκαιο","Εμπορικό / Εταιρικό Δίκαιο","Δίκαιο Ακινήτων","Κληρονομικό Δίκαιο","Διοικητικό Δίκαιο","Φορολογικό Δίκαιο","Τραπεζικό Δίκαιο","Πνευματική Ιδιοκτησία","Προστασία Προσωπικών Δεδομένων","Μεταναστευτικό Δίκαιο","Δίκαιο Μεταφορών","Ασφαλιστικό Δίκαιο","Δίκαιο Καταναλωτή","Δίκαιο Δημοσίων Συμβάσεων","Ενεργειακό Δίκαιο","Ναυτικό Δίκαιο","Δίκαιο Πληροφορικής"];
+
+const SPECIALTIES = [
+"Αστικό Δίκαιο","Ποινικό Δίκαιο","Οικογενειακό Δίκαιο",
+"Εργατικό Δίκαιο","Εμπορικό / Εταιρικό Δίκαιο","Δίκαιο Ακινήτων",
+"Κληρονομικό Δίκαιο","Διοικητικό Δίκαιο","Φορολογικό Δίκαιο",
+"Τραπεζικό Δίκαιο","Πνευματική Ιδιοκτησία",
+"Προστασία Προσωπικών Δεδομένων","Μεταναστευτικό Δίκαιο",
+"Δίκαιο Μεταφορών","Ασφαλιστικό Δίκαιο","Δίκαιο Καταναλωτή",
+"Δίκαιο Δημοσίων Συμβάσεων","Ενεργειακό Δίκαιο","Ναυτικό Δίκαιο",
+"Δίκαιο Πληροφορικής"
+];
+
 const GEO = {
  "Αττική":["Κεντρικός Τομέας Αθηνών","Βόρειος Τομέας Αθηνών","Νότιος Τομέας Αθηνών","Δυτικός Τομέας Αθηνών","Πειραιάς","Νήσοι","Ανατολική Αττική","Δυτική Αττική"],
  "Κεντρική Μακεδονία":["Θεσσαλονίκη","Ημαθία","Κιλκίς","Πέλλα","Πιερία","Σέρρες","Χαλκιδική"],
@@ -122,118 +212,548 @@ const GEO = {
  "Νότιο Αιγαίο":["Άνδρος","Θήρα","Κάλυμνος","Κάρπαθος","Κέα - Κύθνος","Κως","Μήλος","Μύκονος","Νάξος","Πάρος","Ρόδος","Σύρος","Τήνος"],
  "Κρήτη":["Ηράκλειο","Λασίθι","Ρέθυμνο","Χανιά"]
 };
+
 let adminTab = "pending";
 let cachedApplications = [];
 
 function toast(msg) {
- const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
- setTimeout(()=>t.classList.remove("show"),3200);
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3500);
 }
-function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function fillSelects(){
- const regions=Object.keys(GEO);
- ["searchRegion","lawyerRegion"].forEach(id=>{const s=document.getElementById(id);regions.forEach(r=>s.add(new Option(r,r)))});
- const ss=document.getElementById("searchSpecialty"); SPECIALTIES.forEach(x=>ss.add(new Option(x,x)));
- document.getElementById("specialtyChecks").innerHTML=SPECIALTIES.map((x,i)=>`<label><input type="checkbox" name="specialties" value="${safe(x)}">${safe(x)}</label>`).join("");
- updateUnits();
- document.getElementById("lawyerRegion").addEventListener("change",updateUnits);
- document.getElementById("specialtyTiles").innerHTML=SPECIALTIES.slice(0,9).map((x,i)=>`<div class="specialty" onclick="pickSpecialty('${x.replace(/'/g,"\\'")}')"><span class="num">0${i+1}</span><h3>${safe(x)}</h3><p>Εξερευνήστε επαγγελματικά προφίλ</p></div>`).join("");
+
+function safe(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
 }
-function updateUnits(){const r=document.getElementById("lawyerRegion").value;const s=document.getElementById("lawyerUnit");s.innerHTML="";(GEO[r]||[]).forEach(x=>s.add(new Option(x,x)));}
-async function loadDirectory(){
- const {data,error}=await supabase.from("lawyer_public_profiles").select("*").order("created_at",{ascending:false});
- if(error){console.error(error);toast("Δεν ήταν δυνατή η φόρτωση του καταλόγου.");return;}
- renderDirectory(data||[]);
+
+function fillSelects() {
+  const regions = Object.keys(GEO);
+
+  ["searchRegion","lawyerRegion"].forEach(id => {
+    const s = document.getElementById(id);
+    regions.forEach(r => s.add(new Option(r,r)));
+  });
+
+  const ss = document.getElementById("searchSpecialty");
+  SPECIALTIES.forEach(x => ss.add(new Option(x,x)));
+
+  document.getElementById("specialtyChecks").innerHTML =
+    SPECIALTIES.map(x =>
+      `<label><input type="checkbox" name="specialties" value="${safe(x)}">${safe(x)}</label>`
+    ).join("");
+
+  updateUnits();
+
+  document.getElementById("lawyerRegion").addEventListener("change",updateUnits);
+
+  document.getElementById("specialtyTiles").innerHTML =
+    SPECIALTIES.slice(0,9).map((x,i) =>
+      `<div class="specialty" onclick="pickSpecialty('${x.replace(/'/g,"\\'")}')">
+        <span class="num">0${i+1}</span>
+        <h3>${safe(x)}</h3>
+        <p>Εξερευνήστε επαγγελματικά προφίλ</p>
+      </div>`
+    ).join("");
 }
-function pickSpecialty(x){document.getElementById("searchSpecialty").value=x;searchDirectory();}
-async function searchDirectory(){
- const sp=document.getElementById("searchSpecialty").value, reg=document.getElementById("searchRegion").value;
- let q=supabase.from("lawyer_public_profiles").select("*").order("created_at",{ascending:false});
- if(sp) q=q.contains("specialties",[sp]);
- if(reg) q=q.eq("region",reg);
- const {data,error}=await q;
- if(error){console.error(error);toast("Σφάλμα αναζήτησης.");return;}
- renderDirectory(data||[]);document.getElementById("lawyers").scrollIntoView({behavior:"smooth"});
+
+function updateUnits() {
+  const r = document.getElementById("lawyerRegion").value;
+  const s = document.getElementById("lawyerUnit");
+  s.innerHTML = "";
+  (GEO[r] || []).forEach(x => s.add(new Option(x,x)));
 }
-function renderDirectory(list){
- const el=document.getElementById("lawyerResults");
- if(!list.length){el.innerHTML='<div class="empty">Δεν βρέθηκαν εγκεκριμένα προφίλ για τα συγκεκριμένα κριτήρια.</div>';return;}
- el.innerHTML=list.map(a=>`<article class="lawyer-card"><div class="eyebrow">${safe(a.region)} · ${safe(a.unit)}</div><h3>${safe(a.name)}</h3><div class="meta">${safe(a.bar)}</div><div class="meta">${safe(a.city||"Πανελλαδική/τοπική εξυπηρέτηση")}</div><div>${(a.specialties||[]).map(s=>`<span class="tag">${safe(s)}</span>`).join("")}</div><p class="meta">${safe(a.bio||"Επαγγελματικό προφίλ δικηγόρου.")}</p>${a.hourly?`<p class="meta">Ωριαία αμοιβή: ${safe(a.hourly)} €</p>`:""}${a.fixed?`<p class="meta">Ενδεικτική συνολική αμοιβή: ${safe(a.fixed)} €</p>`:""}<a class="btn dark" style="display:inline-block;margin-top:12px;text-decoration:none" href="mailto:${encodeURIComponent(a.email)}?subject=${encodeURIComponent("Επικοινωνία μέσω LEGALMARTIK")}">Επικοινωνία</a></article>`).join("");
+
+async function loadDirectory() {
+  const {data,error} = await supabase
+    .from("lawyer_public_profiles")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(error) {
+    console.error(error);
+    toast("Δεν ήταν δυνατή η φόρτωση του καταλόγου.");
+    return;
+  }
+
+  renderDirectory(data || []);
 }
-function openRegistration(){document.getElementById("registrationModal").classList.add("open");}
-function closeRegistration(){document.getElementById("registrationModal").classList.remove("open");}
-document.getElementById("lawyerForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const f=new FormData(e.target), specialties=f.getAll("specialties");
- if(!specialties.length){toast("Επιλέξτε τουλάχιστον μία ειδικότητα.");return;}
- const payload={name:f.get("name"),email:f.get("email"),phone:f.get("phone"),bar:f.get("bar"),registry:f.get("registry"),experience:f.get("experience")||null,region:f.get("region"),unit:f.get("unit"),city:f.get("city"),specialties,hourly:f.get("hourly")||null,fixed:f.get("fixed")||null,bio:f.get("bio"),website:f.get("website"),status:"pending"};
- const submit=e.target.querySelector('button[type="submit"]'); submit.disabled=true; submit.textContent="Αποθήκευση...";
- const {error}=await supabase.from("lawyer_applications").insert(payload);
- submit.disabled=false; submit.textContent="Υποβολή αίτησης";
- if(error){console.error(error);toast("Η αποθήκευση απέτυχε. Ελέγξτε τη ρύθμιση της βάσης και δοκιμάστε ξανά.");return;}
- e.target.reset();updateUnits();closeRegistration();toast("Η αίτηση αποθηκεύτηκε και αναμένει έγκριση.");
- if(document.getElementById("adminPanel").classList.contains("active")) await renderAdmin();
+
+function pickSpecialty(x) {
+  document.getElementById("searchSpecialty").value = x;
+  searchDirectory();
+}
+
+async function searchDirectory() {
+  const sp = document.getElementById("searchSpecialty").value;
+  const reg = document.getElementById("searchRegion").value;
+
+  let q = supabase.from("lawyer_public_profiles")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(sp) q = q.contains("specialties",[sp]);
+  if(reg) q = q.eq("region",reg);
+
+  const {data,error} = await q;
+
+  if(error) {
+    console.error(error);
+    toast("Σφάλμα αναζήτησης.");
+    return;
+  }
+
+  renderDirectory(data || []);
+  document.getElementById("lawyers").scrollIntoView({behavior:"smooth"});
+}
+
+function renderDirectory(list) {
+  const el = document.getElementById("lawyerResults");
+
+  if(!list.length) {
+    el.innerHTML = '<div class="empty">Δεν βρέθηκαν εγκεκριμένα προφίλ για τα συγκεκριμένα κριτήρια.</div>';
+    return;
+  }
+
+  el.innerHTML = list.map(a => `
+    <article class="lawyer-card">
+      <div class="eyebrow">${safe(a.region)} · ${safe(a.unit)}</div>
+      <h3>${safe(a.name)}</h3>
+      <div class="meta">${safe(a.bar)}</div>
+      <div class="meta">${safe(a.city || "Πανελλαδική/τοπική εξυπηρέτηση")}</div>
+      <div>${(a.specialties || []).map(s => `<span class="tag">${safe(s)}</span>`).join("")}</div>
+      <p class="meta">${safe(a.bio || "Επαγγελματικό προφίλ δικηγόρου.")}</p>
+      ${a.hourly ? `<p class="meta">Ωριαία αμοιβή: ${safe(a.hourly)} €</p>` : ""}
+      ${a.fixed ? `<p class="meta">Ενδεικτική συνολική αμοιβή: ${safe(a.fixed)} €</p>` : ""}
+      <a class="btn dark" style="display:inline-block;margin-top:12px;text-decoration:none"
+        href="mailto:${encodeURIComponent(a.email)}?subject=${encodeURIComponent("Επικοινωνία μέσω LEGALMARTIK")}">Επικοινωνία</a>
+    </article>
+  `).join("");
+}
+
+/* ΚΟΙΝΟ ΣΗΜΕΙΟ ΕΓΓΡΑΦΗΣ / ΣΥΝΔΕΣΗΣ */
+
+function openAuth(mode = "login") {
+  if(mode === "register") {
+    openRegistration();
+    return;
+  }
+
+  document.getElementById("loginModal").classList.add("open");
+}
+
+function closeLogin() {
+  document.getElementById("loginModal").classList.remove("open");
+}
+
+function openRegistration() {
+  closeLogin();
+  document.getElementById("registrationModal").classList.add("open");
+}
+
+function closeRegistration() {
+  document.getElementById("registrationModal").classList.remove("open");
+}
+
+/* ΕΓΓΡΑΦΗ ΔΙΚΗΓΟΡΟΥ */
+
+document.getElementById("lawyerForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const form = e.target;
+  const f = new FormData(form);
+  const specialties = f.getAll("specialties");
+  const email = String(f.get("email") || "").trim().toLowerCase();
+  const password = String(f.get("password") || "");
+
+  if(!specialties.length) {
+    toast("Επιλέξτε τουλάχιστον μία ειδικότητα.");
+    return;
+  }
+
+  if(password.length < 8) {
+    toast("Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες.");
+    return;
+  }
+
+  if(email === ADMIN_EMAIL) {
+    toast("Το email αυτό χρησιμοποιείται από τον διαχειριστή.");
+    return;
+  }
+
+  const submit = form.querySelector('button[type="submit"]');
+  submit.disabled = true;
+  submit.textContent = "Δημιουργία λογαριασμού...";
+
+  try {
+    /* Δημιουργία λογαριασμού Supabase Auth */
+    const {data:authData,error:authError} = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if(authError) throw authError;
+
+    /*
+      Απαιτείται ενεργή session για να καταχωριστεί η αίτηση
+      με τις πολιτικές RLS που ακολουθούν.
+    */
+    if(!authData.session || !authData.user) {
+      toast("Ο λογαριασμός δημιουργήθηκε. Απενεργοποιήστε την επιβεβαίωση email στο Supabase και δοκιμάστε ξανά για να υποβληθεί η αίτηση.");
+      return;
+    }
+
+    const payload = {
+      name: f.get("name"),
+      email,
+      phone: f.get("phone"),
+      bar: f.get("bar"),
+      registry: f.get("registry"),
+      experience: f.get("experience") || null,
+      region: f.get("region"),
+      unit: f.get("unit"),
+      city: f.get("city"),
+      specialties,
+      hourly: f.get("hourly") || null,
+      fixed: f.get("fixed") || null,
+      bio: f.get("bio"),
+      website: f.get("website"),
+      status: "pending"
+    };
+
+    const {error:insertError} = await supabase
+      .from("lawyer_applications")
+      .insert(payload);
+
+    if(insertError) {
+      console.error(insertError);
+      await supabase.auth.signOut();
+      throw insertError;
+    }
+
+    form.reset();
+    updateUnits();
+    closeRegistration();
+
+    toast("Η αίτηση υποβλήθηκε επιτυχώς. Θα μπορείτε να συνδεθείτε όταν εγκριθεί από τον διαχειριστή.");
+
+  } catch(error) {
+    console.error(error);
+    toast(error.message || "Η εγγραφή απέτυχε. Ελέγξτε τα στοιχεία σας.");
+  } finally {
+    submit.disabled = false;
+    submit.textContent = "Δημιουργία λογαριασμού και υποβολή";
+  }
 });
-function showAdmin(){
- document.getElementById("publicSite").classList.add("hidden");document.getElementById("siteHeader").classList.add("hidden");document.getElementById("siteFooter").classList.add("hidden");
- document.getElementById("adminArea").classList.add("active");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPanel").classList.remove("active");
- document.getElementById("adminEmail").value=ADMIN_EMAIL;document.getElementById("adminLoginBtn").textContent="Σύνδεση διαχειριστή";
- window.scrollTo(0,0); checkExistingSession();
+
+/* ΣΥΝΔΕΣΗ ΔΙΚΗΓΟΡΟΥ Ή ΔΙΑΧΕΙΡΙΣΤΗ */
+
+document.getElementById("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  const password = document.getElementById("loginPassword").value;
+  const btn = document.getElementById("loginButton");
+
+  if(!email || !password) {
+    toast("Συμπληρώστε email και κωδικό.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Σύνδεση...";
+
+  try {
+    const {data,error} = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error) throw error;
+
+    /* Αν είναι ο διαχειριστής, ανοίγει το admin panel */
+    if(data.user?.email?.toLowerCase() === ADMIN_EMAIL) {
+      closeLogin();
+      document.getElementById("loginForm").reset();
+      showAdminPanel();
+      return;
+    }
+
+    /* Διαφορετικά ελέγχεται αν ο δικηγόρος έχει εγκριθεί */
+    const {data:application,error:applicationError} = await supabase
+      .from("lawyer_applications")
+      .select("id,status")
+      .eq("email",email)
+      .maybeSingle();
+
+    if(applicationError) {
+      console.error(applicationError);
+      await supabase.auth.signOut();
+      throw new Error("Δεν ήταν δυνατός ο έλεγχος της αίτησής σας.");
+    }
+
+    if(!application) {
+      await supabase.auth.signOut();
+      throw new Error("Δεν βρέθηκε αίτηση συνδεδεμένη με αυτόν τον λογαριασμό.");
+    }
+
+    if(application.status !== "approved") {
+      await supabase.auth.signOut();
+
+      if(application.status === "pending") {
+        throw new Error("Η αίτησή σας βρίσκεται ακόμη σε αναμονή έγκρισης.");
+      }
+
+      throw new Error("Η αίτησή σας δεν έχει εγκριθεί. Επικοινωνήστε με τη διαχείριση.");
+    }
+
+    closeLogin();
+    document.getElementById("loginForm").reset();
+    toast("Η σύνδεση πραγματοποιήθηκε επιτυχώς.");
+
+  } catch(error) {
+    console.error(error);
+    toast(error.message || "Η σύνδεση απέτυχε. Ελέγξτε email και κωδικό.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Σύνδεση";
+  }
+});
+
+/* ΔΙΑΧΕΙΡΙΣΗ */
+
+function showAdmin() {
+  document.getElementById("publicSite").classList.add("hidden");
+  document.getElementById("siteHeader").classList.add("hidden");
+  document.getElementById("siteFooter").classList.add("hidden");
+  document.getElementById("adminArea").classList.add("active");
+  document.getElementById("adminLogin").classList.add("hidden");
+  document.getElementById("adminPanel").classList.add("active");
+  window.scrollTo(0,0);
 }
-function backToSite(){document.getElementById("adminArea").classList.remove("active");document.getElementById("publicSite").classList.remove("hidden");document.getElementById("siteHeader").classList.remove("hidden");document.getElementById("siteFooter").classList.remove("hidden");window.scrollTo(0,0);}
-async function checkExistingSession(){
- const {data}=await supabase.auth.getSession();
- if(data.session?.user?.email===ADMIN_EMAIL) showAdminPanel();
+
+function backToSite() {
+  document.getElementById("adminArea").classList.remove("active");
+  document.getElementById("publicSite").classList.remove("hidden");
+  document.getElementById("siteHeader").classList.remove("hidden");
+  document.getElementById("siteFooter").classList.remove("hidden");
+  window.scrollTo(0,0);
 }
-async function adminLogin(){
- const email=document.getElementById("adminEmail").value.trim(),pass=document.getElementById("adminPassword").value;
- if(email!==ADMIN_EMAIL){toast("Μη εξουσιοδοτημένο email.");return;}
- if(!pass){toast("Συμπληρώστε τον κωδικό σας.");return;}
- const btn=document.getElementById("adminLoginBtn");btn.disabled=true;btn.textContent="Σύνδεση...";
- const {data,error}=await supabase.auth.signInWithPassword({email,password:pass});
- btn.disabled=false;btn.textContent="Σύνδεση διαχειριστή";
- if(error){console.error(error);toast("Η σύνδεση απέτυχε. Ελέγξτε email και κωδικό.");return;}
- if(data.user?.email!==ADMIN_EMAIL){await supabase.auth.signOut();toast("Δεν επιτρέπεται η πρόσβαση.");return;}
- document.getElementById("adminPassword").value="";showAdminPanel();
+
+async function showAdminPanel() {
+  const {data} = await supabase.auth.getSession();
+
+  if(data.session?.user?.email?.toLowerCase() !== ADMIN_EMAIL) {
+    await supabase.auth.signOut();
+    toast("Δεν επιτρέπεται η πρόσβαση στη διαχείριση.");
+    return;
+  }
+
+  closeLogin();
+  document.getElementById("publicSite").classList.add("hidden");
+  document.getElementById("siteHeader").classList.add("hidden");
+  document.getElementById("siteFooter").classList.add("hidden");
+  document.getElementById("adminArea").classList.add("active");
+  document.getElementById("adminLogin").classList.add("hidden");
+  document.getElementById("adminPanel").classList.add("active");
+
+  window.scrollTo(0,0);
+  await renderAdmin();
 }
-function showAdminPanel(){document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminPanel").classList.add("active");renderAdmin();}
-async function adminLogout(){await supabase.auth.signOut();document.getElementById("adminPanel").classList.remove("active");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPassword").value="";toast("Έγινε αποσύνδεση.");}
-function setAdminTab(tab,btn){adminTab=tab;document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");renderAdmin();}
-async function renderAdmin(){
- const {data,error}=await supabase.from("lawyer_applications").select("*").order("created_at",{ascending:false});
- if(error){console.error(error);toast("Δεν ήταν δυνατή η φόρτωση αιτήσεων. Ελέγξτε τη σύνδεση και τα δικαιώματα.");return;}
- cachedApplications=data||[];
- document.getElementById("pendingCount").textContent=cachedApplications.filter(x=>x.status==="pending").length;
- document.getElementById("approvedCount").textContent=cachedApplications.filter(x=>x.status==="approved").length;
- document.getElementById("totalCount").textContent=cachedApplications.length;
- const list=cachedApplications.filter(x=>x.status===adminTab),el=document.getElementById("applicationList");
- if(!list.length){el.innerHTML='<div class="empty">Δεν υπάρχουν αιτήσεις σε αυτή την κατηγορία.</div>';return;}
- el.innerHTML=list.map(x=>`<article class="application"><div class="status">${x.status==="pending"?"Σε αναμονή":x.status==="approved"?"Εγκεκριμένος":"Απορριφθείς"}</div><h3>${safe(x.name)}</h3><p>${safe(x.email)} · ${safe(x.phone)}</p><p>${safe(x.bar)} · Αρ. μητρώου: ${safe(x.registry)}</p><p>${safe(x.region)} / ${safe(x.unit)} · ${safe(x.city)}</p><p><strong>Ειδικότητες:</strong> ${(x.specialties||[]).map(safe).join(", ")}</p><p><strong>Αμοιβή:</strong> ${x.hourly?safe(x.hourly)+" €/ώρα":"Δεν δηλώθηκε ωριαία"} · ${x.fixed?safe(x.fixed)+" € συνολικά":"Δεν δηλώθηκε συνολική"}</p><p><strong>Εμπειρία:</strong> ${safe(x.experience||"Δεν δηλώθηκε")} έτη</p><p><strong>Περιγραφή:</strong> ${safe(x.bio||"Δεν καταχωρίστηκε")}</p>${x.website?`<p>Ιστοσελίδα: ${safe(x.website)}</p>`:""}<div class="actions">${x.status!=="approved"?`<button class="btn small" onclick="changeStatus('${x.id}','approved')">Έγκριση προφίλ</button>`:""}${x.status!=="rejected"?`<button class="danger" onclick="changeStatus('${x.id}','rejected')">Απόρριψη</button>`:""}${x.status!=="pending"?`<button class="btn small outline" style="color:var(--navy)" onclick="changeStatus('${x.id}','pending')">Επαναφορά σε αναμονή</button>`:""}<button class="danger" onclick="deleteApplication('${x.id}')">Διαγραφή</button></div></article>`).join("");
+
+async function adminLogout() {
+  await supabase.auth.signOut();
+
+  document.getElementById("adminPanel").classList.remove("active");
+  document.getElementById("adminArea").classList.remove("active");
+  document.getElementById("publicSite").classList.remove("hidden");
+  document.getElementById("siteHeader").classList.remove("hidden");
+  document.getElementById("siteFooter").classList.remove("hidden");
+
+  toast("Έγινε αποσύνδεση.");
+  window.scrollTo(0,0);
 }
-async function changeStatus(id,status){
- const {data:app,error}=await supabase.from("lawyer_applications").update({status}).eq("id",id).select().single();
- if(error){console.error(error);toast("Δεν ήταν δυνατή η ενημέρωση της αίτησης.");return;}
- if(status==="approved"){
-  const pub={id:app.id,name:app.name,email:app.email,bar:app.bar,region:app.region,unit:app.unit,city:app.city,specialties:app.specialties,bio:app.bio,hourly:app.hourly,fixed:app.fixed,website:app.website,created_at:app.created_at};
-  const {error:pubError}=await supabase.from("lawyer_public_profiles").upsert(pub);
-  if(pubError){console.error(pubError);toast("Η αίτηση εγκρίθηκε, αλλά η δημοσίευση απέτυχε. Ελέγξτε τον πίνακα δημόσιων προφίλ.");await renderAdmin();return;}
- } else {
-  const {error:delError}=await supabase.from("lawyer_public_profiles").delete().eq("id",id);
-  if(delError){console.error(delError);toast("Η κατάσταση άλλαξε, αλλά δεν ενημερώθηκε ο δημόσιος κατάλογος.");await renderAdmin();return;}
- }
- await renderAdmin();await loadDirectory();toast("Η κατάσταση της αίτησης ενημερώθηκε.");
+
+function setAdminTab(tab,btn) {
+  adminTab = tab;
+  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+  btn.classList.add("active");
+  renderAdmin();
 }
-async function deleteApplication(id){
- if(!confirm("Να διαγραφεί οριστικά αυτή η αίτηση;"))return;
- const {error}=await supabase.from("lawyer_applications").delete().eq("id",id);
- if(error){console.error(error);toast("Η διαγραφή απέτυχε.");return;}
- await supabase.from("lawyer_public_profiles").delete().eq("id",id);
- await renderAdmin();await loadDirectory();toast("Η αίτηση διαγράφηκε.");
+
+async function renderAdmin() {
+  const {data:sessionData} = await supabase.auth.getSession();
+
+  if(sessionData.session?.user?.email?.toLowerCase() !== ADMIN_EMAIL) {
+    toast("Η πρόσβαση διαχειριστή δεν είναι εξουσιοδοτημένη.");
+    await adminLogout();
+    return;
+  }
+
+  const {data,error} = await supabase
+    .from("lawyer_applications")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(error) {
+    console.error(error);
+    toast("Δεν ήταν δυνατή η φόρτωση αιτήσεων. Ελέγξτε τα δικαιώματα Supabase.");
+    return;
+  }
+
+  cachedApplications = data || [];
+
+  document.getElementById("pendingCount").textContent =
+    cachedApplications.filter(x => x.status === "pending").length;
+
+  document.getElementById("approvedCount").textContent =
+    cachedApplications.filter(x => x.status === "approved").length;
+
+  document.getElementById("totalCount").textContent =
+    cachedApplications.length;
+
+  const list = cachedApplications.filter(x => x.status === adminTab);
+  const el = document.getElementById("applicationList");
+
+  if(!list.length) {
+    el.innerHTML = '<div class="empty">Δεν υπάρχουν αιτήσεις σε αυτή την κατηγορία.</div>';
+    return;
+  }
+
+  el.innerHTML = list.map(x => `
+    <article class="application">
+      <div class="status">${x.status === "pending" ? "Σε αναμονή" : x.status === "approved" ? "Εγκεκριμένος" : "Απορριφθείς"}</div>
+      <h3>${safe(x.name)}</h3>
+      <p>${safe(x.email)} · ${safe(x.phone)}</p>
+      <p>${safe(x.bar)} · Αρ. μητρώου: ${safe(x.registry)}</p>
+      <p>${safe(x.region)} / ${safe(x.unit)} · ${safe(x.city)}</p>
+      <p><strong>Ειδικότητες:</strong> ${(x.specialties || []).map(safe).join(", ")}</p>
+      <p><strong>Αμοιβή:</strong> ${x.hourly ? safe(x.hourly)+" €/ώρα" : "Δεν δηλώθηκε ωριαία"} · ${x.fixed ? safe(x.fixed)+" € συνολικά" : "Δεν δηλώθηκε συνολική"}</p>
+      <p><strong>Εμπειρία:</strong> ${safe(x.experience || "Δεν δηλώθηκε")} έτη</p>
+      <p><strong>Περιγραφή:</strong> ${safe(x.bio || "Δεν καταχωρίστηκε")}</p>
+      ${x.website ? `<p>Ιστοσελίδα: ${safe(x.website)}</p>` : ""}
+      <div class="actions">
+        ${x.status !== "approved" ? `<button class="btn small" onclick="changeStatus('${x.id}','approved')">Έγκριση προφίλ</button>` : ""}
+        ${x.status !== "rejected" ? `<button class="danger" onclick="changeStatus('${x.id}','rejected')">Απόρριψη</button>` : ""}
+        ${x.status !== "pending" ? `<button class="btn small outline" style="color:var(--navy)" onclick="changeStatus('${x.id}','pending')">Επαναφορά σε αναμονή</button>` : ""}
+        <button class="danger" onclick="deleteApplication('${x.id}')">Διαγραφή</button>
+      </div>
+    </article>
+  `).join("");
 }
-window.openRegistration=openRegistration;window.closeRegistration=closeRegistration;window.showAdmin=showAdmin;window.backToSite=backToSite;
-window.adminLogin=adminLogin;window.adminLogout=adminLogout;window.setAdminTab=setAdminTab;
-window.searchDirectory=searchDirectory;window.pickSpecialty=pickSpecialty;window.changeStatus=changeStatus;window.deleteApplication=deleteApplication;
-fillSelects();loadDirectory();
+
+async function changeStatus(id,status) {
+  const {data:app,error} = await supabase
+    .from("lawyer_applications")
+    .update({status})
+    .eq("id",id)
+    .select()
+    .single();
+
+  if(error) {
+    console.error(error);
+    toast("Δεν ήταν δυνατή η ενημέρωση της αίτησης.");
+    return;
+  }
+
+  if(status === "approved") {
+    const pub = {
+      id:app.id,
+      name:app.name,
+      email:app.email,
+      bar:app.bar,
+      region:app.region,
+      unit:app.unit,
+      city:app.city,
+      specialties:app.specialties,
+      bio:app.bio,
+      hourly:app.hourly,
+      fixed:app.fixed,
+      website:app.website,
+      created_at:app.created_at
+    };
+
+    const {error:pubError} = await supabase
+      .from("lawyer_public_profiles")
+      .upsert(pub);
+
+    if(pubError) {
+      console.error(pubError);
+      toast("Η αίτηση εγκρίθηκε, αλλά η δημοσίευση απέτυχε. Ελέγξτε τον πίνακα δημόσιων προφίλ.");
+      await renderAdmin();
+      return;
+    }
+
+  } else {
+    const {error:delError} = await supabase
+      .from("lawyer_public_profiles")
+      .delete()
+      .eq("id",id);
+
+    if(delError) {
+      console.error(delError);
+      toast("Η κατάσταση άλλαξε, αλλά δεν ενημερώθηκε ο δημόσιος κατάλογος.");
+      await renderAdmin();
+      return;
+    }
+  }
+
+  await renderAdmin();
+  await loadDirectory();
+  toast("Η κατάσταση της αίτησης ενημερώθηκε.");
+}
+
+async function deleteApplication(id) {
+  if(!confirm("Να διαγραφεί οριστικά αυτή η αίτηση;")) return;
+
+  const {error} = await supabase
+    .from("lawyer_applications")
+    .delete()
+    .eq("id",id);
+
+  if(error) {
+    console.error(error);
+    toast("Η διαγραφή απέτυχε.");
+    return;
+  }
+
+  await supabase.from("lawyer_public_profiles").delete().eq("id",id);
+
+  await renderAdmin();
+  await loadDirectory();
+  toast("Η αίτηση διαγράφηκε.");
+}
+
+/* Έλεγχος υπάρχουσας σύνδεσης κατά την εκκίνηση */
+
+async function checkExistingSession() {
+  const {data} = await supabase.auth.getSession();
+
+  if(data.session?.user?.email?.toLowerCase() === ADMIN_EMAIL) {
+    await showAdminPanel();
+  }
+}
+
+/* Συναρτήσεις που καλούνται από HTML onclick */
+
+window.openAuth = openAuth;
+window.openRegistration = openRegistration;
+window.closeRegistration = closeRegistration;
+window.closeLogin = closeLogin;
+window.showAdmin = showAdmin;
+window.backToSite = backToSite;
+window.adminLogout = adminLogout;
+window.setAdminTab = setAdminTab;
+window.searchDirectory = searchDirectory;
+window.pickSpecialty = pickSpecialty;
+window.changeStatus = changeStatus;
+window.deleteApplication = deleteApplication;
+
+fillSelects();
+loadDirectory();
+checkExistingSession();
 </script>
 </body>
 </html>
